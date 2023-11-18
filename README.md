@@ -82,6 +82,8 @@ game_type 3
 
 # Set up cfg
 Directory ``` \game\csgo\cfg\server.cfg ```
+automation WIP
+
 
 # License
 This project is licensed under the MIT License - see the <a href="https://github.com/ohmcodes/WindowsGSM.CS2/blob/main/LICENSE">LICENSE.md</a> file for details
