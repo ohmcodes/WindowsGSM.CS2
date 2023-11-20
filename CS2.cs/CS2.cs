@@ -19,7 +19,7 @@ namespace WindowsGSM.Plugins
             name = "WindowsGSM.CS2", // WindowsGSM.XXXX
             author = "ohmcodes",
             description = "WindowsGSM plugin for supporting Counter Strike 2 Dedicated Server",
-            version = "1.0",
+            version = "2.1.0",
             url = "https://github.com/ohmcodes/WindowsGSM.CS2", // Github repository link (Best practice)
             color = "#FFA500" // Color Hex
         };
@@ -36,7 +36,7 @@ namespace WindowsGSM.Plugins
         // - Game server Fixed variables
         public override string StartPath => "game\\bin\\win64\\cs2.exe"; // Game server start path
         public string FullName = "Counter Strike 2 Dedicated Server"; // Game server FullName
-        public bool AllowsEmbedConsole = true;  // Does this server support output redirect?
+        public bool AllowsEmbedConsole = false;  // Does this server support output redirect?
         public int PortIncrements = 1; // This tells WindowsGSM how many ports should skip after installation
         public object QueryMethod = new A2S(); // Query method should be use on current server type. Accepted value: null or new A2S() or new FIVEM() or new UT3()
 
@@ -77,7 +77,7 @@ namespace WindowsGSM.Plugins
             param += $" -port {_serverData.ServerPort}";
             param += $" -maxplayers {_serverData.ServerMaxPlayer}";
 
-            param += $" { _serverData.ServerParam}";
+            param += $" {_serverData.ServerParam}";
             
 
             // Prepare Process
@@ -88,33 +88,16 @@ namespace WindowsGSM.Plugins
                     WorkingDirectory = ServerPath.GetServersServerFiles(_serverData.ServerID),
                     FileName = shipExePath,
                     Arguments = param.ToString(),
-                    WindowStyle = ProcessWindowStyle.Minimized,
+                    WindowStyle = ProcessWindowStyle.Normal,
                     UseShellExecute = false
                 },
                 EnableRaisingEvents = true
             };
 
-            // Set up Redirect Input and Output to WindowsGSM Console if EmbedConsole is on
-            if (AllowsEmbedConsole)
-            {
-                p.StartInfo.CreateNoWindow = false;
-                p.StartInfo.RedirectStandardInput = true;
-                p.StartInfo.RedirectStandardOutput = true;
-                p.StartInfo.RedirectStandardError = true;
-                var serverConsole = new ServerConsole(_serverData.ServerID);
-                p.OutputDataReceived += serverConsole.AddOutput;
-                p.ErrorDataReceived += serverConsole.AddOutput;
-            }
-
             // Start Process
             try
             {
                 p.Start();
-                if (AllowsEmbedConsole)
-                {
-                    p.BeginOutputReadLine();
-                    p.BeginErrorReadLine();
-                }
 
                 return p;
             }
@@ -124,17 +107,7 @@ namespace WindowsGSM.Plugins
                 return null; // return null if fail to start
             }
         }
-
-        // - Stop server function
-        public async Task Stop(Process p)
-        {
-            await Task.Run(() =>
-            {
-                Functions.ServerConsole.SendMessageToMainWindow(p.MainWindowHandle, "quit");
-            });
-            await Task.Delay(20000);
-        }
-
+		
         // - Update server function
         public async Task<Process> Update(bool validate = false, string custom = null)
         {
