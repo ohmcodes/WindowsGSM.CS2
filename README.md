@@ -87,6 +87,7 @@ automation WIP
 # NOTE
 - Console Embed is not supported
 - Server Stop/Restart is not supported you have to manually type quit in the console
+- Install Steam Launcher if the server is not starting
 
 # License
 This project is licensed under the MIT License - see the <a href="https://github.com/ohmcodes/WindowsGSM.CS2/blob/main/LICENSE">LICENSE.md</a> file for details
