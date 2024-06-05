@@ -14,9 +14,9 @@ namespace WindowsGSM.Plugins
         public Plugin Plugin = new Plugin
         {
             name = "WindowsGSM.CS2",
-            author = "ohmcodes",
+            author = "ohmcodes & E!N",
             description = "WindowsGSM plugin for supporting Counter Strike 2 Dedicated Server",
-            version = "2.1.0",
+            version = "2.1.1",
             url = "https://github.com/ohmcodes/WindowsGSM.CS2",
             color = "#FFA500"
         };
