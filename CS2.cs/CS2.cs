@@ -19,7 +19,7 @@ namespace WindowsGSM.Plugins
             name = "WindowsGSM.CS2", // WindowsGSM.XXXX
             author = "ohmcodes",
             description = "WindowsGSM plugin for supporting Counter Strike 2 Dedicated Server",
-            version = "2.1.0",
+            version = "2.1.1",
             url = "https://github.com/ohmcodes/WindowsGSM.CS2", // Github repository link (Best practice)
             color = "#FFA500" // Color Hex
         };
@@ -34,7 +34,7 @@ namespace WindowsGSM.Plugins
         public override string AppId => "730"; /* taken via https://steamdb.info/app/730/info/ */
 
         // - Game server Fixed variables
-        public override string StartPath => "game\\bin\\win64\\cs2.exe"; // Game server start path
+        public override string StartPath => @"game\\bin\\win64\\cs2.exe"; // Game server start path
         public string FullName = "Counter Strike 2 Dedicated Server"; // Game server FullName
         public bool AllowsEmbedConsole = false;  // Does this server support output redirect?
         public int PortIncrements = 1; // This tells WindowsGSM how many ports should skip after installation
@@ -111,7 +111,7 @@ namespace WindowsGSM.Plugins
         // - Update server function
         public async Task<Process> Update(bool validate = false, string custom = null)
         {
-            var (p, error) = await Installer.SteamCMD.UpdateEx(serverData.ServerID, AppId, validate, custom: custom, loginAnonymous: loginAnonymous);
+            var (p, error) = await Installer.SteamCMD.UpdateEx(_serverData.ServerID, AppId, validate, custom: custom, loginAnonymous: loginAnonymous);
             Error = error;
             await Task.Run(() => { p.WaitForExit(); });
             return p;
